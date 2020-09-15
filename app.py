@@ -34,6 +34,10 @@ def index():
             print('No file selected')
             return redirect(request.url)
         if file and allowed_file(file.filename):
+            if not os.path.exists(DOWNLOAD_FOLDER):
+                os.mkdir(DOWNLOAD_FOLDER)
+            if not os.path.exists(UPLOAD_FOLDER):
+                os.mkdir(UPLOAD_FOLDER)
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             return redirect(url_for('uploaded_file', filename=filename))
